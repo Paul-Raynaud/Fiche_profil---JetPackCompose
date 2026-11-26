@@ -1,5 +1,8 @@
 # Profil développeur Compose
 
+> [!NOTE]
+> **Devoir 2 (Amélioration UI)** : La version améliorée de l'application avec Material 3, `LazyRow`, `LazyColumn` et `OutlinedTextField` se trouve sur la branche **`Devoir-Amélioration_UI_application`**.
+
 ## Présentation de l'Application
 
 Cette application Android développée en **Jetpack Compose** (Material 3) affiche une fiche de profil développeur moderne, claire et adaptative. L'application met en avant les informations clés d'un professionnel ou d'un étudiant en informatique à travers une interface fluide et structurée.
