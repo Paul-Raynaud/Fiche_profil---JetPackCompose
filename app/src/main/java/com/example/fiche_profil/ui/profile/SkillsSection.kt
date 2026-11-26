@@ -4,13 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.fiche_profil.ui.components.SectionTitle
 import com.example.fiche_profil.ui.components.SkillChip
+import androidx.compose.foundation.lazy.items
 
 /**
  * Section affichant la liste des compétences sous forme de badges.
@@ -25,11 +28,11 @@ fun SkillsSection(
         SectionTitle(title = "Compétences")
         Spacer(modifier = Modifier.height(8.dp))
 
-        FlowRow(
+        LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            contentPadding = PaddingValues(horizontal = 2.dp)
         ) {
-            skills.forEach { skill ->
+            items(skills) { skill ->
                 SkillChip(skill = skill)
             }
         }

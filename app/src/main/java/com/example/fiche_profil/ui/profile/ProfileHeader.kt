@@ -22,14 +22,13 @@ fun ProfileHeader(
     name: String,
     role: String,
     description: String,
-    isAvailable: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProfileAvatar(name = name)
+        ProfileAvatar()
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -49,7 +48,6 @@ fun ProfileHeader(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AvailabilityBadge(isAvailable = isAvailable)
 
         Spacer(modifier = Modifier.height(12.dp))
 

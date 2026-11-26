@@ -15,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.fiche_profil.model.ProfileData
 import com.example.fiche_profil.ui.components.ActionButton
+import com.example.fiche_profil.ui.components.ProjectCard
+import com.example.fiche_profil.ui.components.SectionTitle
 
 /**
- * Carte principale affichant le profil complet avec padding interne.
+ * Carte principale affichant le profil complet.
  */
 @Composable
 fun ProfileCard(
@@ -26,28 +28,27 @@ fun ProfileCard(
     onContactClick: () -> Unit = {}
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        // PADDING INTERNE : Le composant applique du padding à l'intérieur pour espacer son contenu des bords
         Column(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(20.dp), // Padding interne
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ProfileHeader(
                 name = profile.name,
                 role = profile.role,
                 description = profile.description,
-                isAvailable = profile.isAvailable,
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // 1. Liste de compétences (LazyRow)
             SkillsSection(
                 skills = profile.skills,
                 modifier = Modifier.fillMaxWidth()
@@ -55,6 +56,29 @@ fun ProfileCard(
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            // 2. Section Projets & Expériences (ProjectCard)
+            SectionTitle(
+                title = "Projets & Expériences",
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            profile.projects.forEach { project ->
+                ProjectCard(project = project)
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // 3. Section Contact (OutlinedTextFields en lecture seule)
+            ContactSection(
+                contactInfo = profile.contactInfo,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // 4. Bouton d'action principal
             ActionButton(
                 text = profile.buttonText,
                 onClick = onContactClick,
