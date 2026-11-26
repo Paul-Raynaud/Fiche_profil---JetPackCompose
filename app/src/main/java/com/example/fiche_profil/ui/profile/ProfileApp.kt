@@ -1,5 +1,6 @@
 package com.example.fiche_profil.ui.profile
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -32,18 +33,26 @@ fun ProfileApp(
 
 
 
-@Preview(showBackground = true, name = "Profil 1 - Junior Android (Disponible)")
+@Preview(
+    showBackground = true,
+    name = "Mode Clair - Profil Junior",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
-fun ProfileJuniorPreview() {
-    Fiche_profilTheme {
+fun ProfileLightPreview() {
+    Fiche_profilTheme(darkTheme = false) {
         ProfileApp(profile = sampleJuniorProfile)
     }
 }
 
-@Preview(showBackground = true, name = "Profil 2 - Senior Fullstack (En poste)")
+@Preview(
+    showBackground = true,
+    name = "Mode Sombre - Profil Senior",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
-fun ProfileSeniorPreview() {
-    Fiche_profilTheme {
+fun ProfileDarkPreview() {
+    Fiche_profilTheme(darkTheme = true) {
         ProfileApp(profile = sampleSeniorProfile)
     }
 }

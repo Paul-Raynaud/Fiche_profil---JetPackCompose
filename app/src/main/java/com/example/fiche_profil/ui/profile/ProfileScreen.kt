@@ -2,9 +2,11 @@ package com.example.fiche_profil.ui.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,13 +29,18 @@ fun ProfileScreen(
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-        ProfileCard(
-            profile = profile,
-            // PADDING EXTERNE : Le parent décide du placement et des marges de la carte
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            onContactClick = onContactClick
-        )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                ProfileCard(
+                    profile = profile,
+                    modifier = Modifier.fillMaxWidth(),
+                    onContactClick = onContactClick
+                )
+            }
+        }
     }
 }
