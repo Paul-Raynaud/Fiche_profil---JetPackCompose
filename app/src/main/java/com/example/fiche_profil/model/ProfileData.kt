@@ -7,6 +7,7 @@ data class ProfileData(
     val name: String,
     val role: String,
     val description: String,
+    val isAvailable: Boolean = true,
     val skills: List<String>,
     val projects: List<ProjectData>,
     val contactInfo: ContactInfo,

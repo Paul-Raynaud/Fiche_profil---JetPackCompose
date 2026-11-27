@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.platform.LocalContext
 import com.example.fiche_profil.model.sampleSeniorProfile
 import com.example.fiche_profil.ui.profile.ProfileApp
+import com.example.fiche_profil.ui.profile.ProfileContainer
 import com.example.fiche_profil.ui.theme.Fiche_profilTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,12 +18,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             Fiche_profilTheme {
                 val context = LocalContext.current
-                ProfileApp(
-                    profile = sampleSeniorProfile,
+                ProfileContainer(
                     onContactClick = {
                         Toast.makeText(
                             context,
-                            "Action déclenchée : Contacter ${sampleSeniorProfile.name}",
+                            "Action déclenchée : Contacter le développeur",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
