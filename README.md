@@ -4,7 +4,7 @@
 > **Devoir 2 (Amélioration UI)** : La version améliorée de l'application avec Material 3, `LazyRow`, `LazyColumn` et `OutlinedTextField` se trouve sur la branche **`Devoir-Amélioration_UI_application`**.
 
 > [!IMPORTANT]
-> **Devoir 3 (Profil Développeur Interactif)** : La version interactive et réactive de l'application avec `ViewModel`, `StateFlow`, barre de recherche et gestion des favoris se trouve sur la branche **`Devoir-Profil_intéractif`**. **Devoir 3 (profil intéractif)** : La version améliorée de l'application avec Material 3, `LazyRow`, `LazyColumn` et `OutlinedTextField` se trouve sur la branche **`Devoir-Amélioration_UI_application`**.
+> **Devoir 3 (Profil Développeur Interactif)** : La version interactive et réactive de l'application avec `ViewModel`, `StateFlow`, barre de recherche et gestion des favoris se trouve sur la branche **`Devoir-Profil_intéractif`**.
 
 ## Présentation de l'Application
 
