@@ -1,83 +1,65 @@
-# Profil développeur Compose
+# Devoir 3 – Portfolio Développeur Interactif
 
-> [!NOTE]
-> **Devoir 2 (Amélioration UI)** : La version améliorée de l'application avec Material 3, `LazyRow`, `LazyColumn` et `OutlinedTextField` se trouve sur la branche **`Devoir-Amélioration_UI_application`**.
+## 1. Titre du projet
+**Application Portfolio Développeur Interactif et Réactif avec Jetpack Compose, ViewModel & StateFlow**
 
-## Présentation de l'Application
-
-Cette application Android développée en **Jetpack Compose** (Material 3) affiche une fiche de profil développeur moderne, claire et adaptative. L'application met en avant les informations clés d'un professionnel ou d'un étudiant en informatique à travers une interface fluide et structurée.
-
-### Fonctionnalités de l'interface :
-- **Avatar dynamique** : Affiche l'initiale du développeur dans un cercle coloré Material 3 (`ProfileAvatar`).
-- **En-tête professionnel** : Affiche le nom, le poste/titre professionnel et une courte présentation.
-- **Indicateur de statut** : Un badge coloré dynamique (`AvailabilityBadge`) indiquant si le profil est *Disponible pour un projet / stage* (voyant vert) ou *Actuellement en poste* (voyant orange).
-- **Mosaïque de compétences** : Une liste de compétences présentées sous forme de badges individuels (`SkillChip`) organisés en flux automatique (`FlowRow`).
-- **Zone d'action interactive** : Un bouton d'action sur-mesure (`ActionButton`) permettant de contacter le développeur ou de consulter son portfolio, déclenchant une notification visuelle (`Toast`).
+## 2. Description de l'application
+Cette application est une évolution de l'interface "Profil développeur". Elle transforme la fiche statique en un **portfolio interactif et réactif**. L'utilisateur peut désormais :
+- Rechercher un projet par son **titre** ou une **technologie** utilisée.
+- Marquer/retirer un projet des **favoris** en cliquant sur l'icône de cœur.
+- Filtrer la liste pour n'afficher que les **projets favoris**.
+- Consulter en temps réel le **nombre de projets affichés**.
+- Afficher ou masquer les **informations de contact** grâce à une zone dépliable interactive.
 
 ---
 
-## Architecture du Projet & Découpage des Composants
-
-L'application adopte les principes de l'**Atomic Design** et une architecture modulaire propre, organisée en packages distincts :
-
-```
-com.example.fiche_profil/
-├── MainActivity.kt                         # Point d'entrée principal de l'activité
-├── model/
-│   └── ProfileData.kt                      # Modèle de données et profils de démonstration
-└── ui/
-    ├── components/                         # Composants atomiques réutilisables
-    │   ├── ActionButton.kt                 # Bouton d'action réutilisable avec accessibilité
-    │   ├── AvailabilityBadge.kt            # Badge de statut de disponibilité
-    │   ├── ProfileAvatar.kt                # Avatar circulaire réutilisable
-    │   ├── SectionTitle.kt                 # Titre de section typographié
-    │   └── SkillChip.kt                    # Badge individuel de compétence
-    └── profile/                            # Composants d'assemblage et écran
-        ├── ProfileApp.kt                   # Composable racine avec Scaffold & Previews
-        ├── ProfileCard.kt                  # Carte d'affichage du profil avec élévation
-        ├── ProfileHeader.kt                # Assemblage de l'en-tête (Avatar, Nom, Rôle, Statut)
-        ├── ProfileScreen.kt                # Conteneur principal gérant le placement et l'arrière-plan
-        └── SkillsSection.kt                # Assemblage de la section des compétences
-```
-
-### Rôle des Composants :
-
-1. **`ProfileAvatar`** : Génère un badge circulaire avec l'initiale majuscule du nom transmis.
-2. **`SectionTitle`** : Standardise la typographie des titres de sections (`titleMedium` en gras).
-3. **`AvailabilityBadge`** : Calcule dynamiquement la couleur et le libellé du statut selon la disponibilité du profil.
-4. **`SkillChip`** : Reçoit le nom d'une compétence et lui applique un fond `secondaryContainer` aéré.
-5. **`ActionButton`** : Bouton personnalisé combinant le chaînage de modifiers (`fillMaxWidth`, `clip`, `clickable`) et la déclaration sémantique d'accessibilité (`Role.Button`).
-6. **`SkillsSection`** : Organise les `SkillChip` dans un assemblage réactif avec `FlowRow`.
-7. **`ProfileHeader`** : Regroupe l'avatar, le nom, le rôle, le badge et la bio en un bloc vertical centré.
-8. **`ProfileCard`** : Reçoit l'objet `ProfileData` et applique une carte Material 3 (`Card`) avec un ombre de `6.dp`.
-9. **`ProfileScreen`** : Centre la carte dans un conteneur `Box` occupant tout l'écran (`fillMaxSize`).
-10. **`ProfileApp`** : Intègre le tout dans un `Scaffold` pour s'adapter parfaitement aux insets système (*Edge-to-Edge*).
+## 3. États gérés par l'application
+L'état principal de l'écran est regroupé dans la classe `ProfileUiState` :
+- **`searchQuery`** : Le texte saisi dans la barre de recherche.
+- **`showOnlyFavorites`** : L'état du filtre (*true* = uniquement les favoris, *false* = tous les projets).
+- **`favoriteProjectIds`** : L'ensemble (`Set<String>`) des identifiants des projets marqués comme favoris.
+- **`filteredProjects`** : Propriété calculée filtrant dynamiquement les projets en temps réel selon la recherche et le filtre favoris.
+- **`visibleProjectsCount`** : Nombre de projets actuellement affichés.
 
 ---
 
-## Concepts Techniques Mis en Œuvre
-
-- **Distinction Padding Externe vs Padding Interne** :
-  - **Padding externe** : Appliqué par le composant parent pour positionner un élément par rapport à son environnement (ex. `Modifier.padding(innerPadding)` fourni par `Scaffold`, et `Modifier.padding(16.dp)` autour de `ProfileCard`).
-  - **Padding interne** : Appliqué à l'intérieur du composant pour espacer son propre contenu des bordures de son conteneur (ex. `Modifier.padding(20.dp)` dans `ProfileCard`, `padding(horizontal = 10.dp, vertical = 6.dp)` dans `SkillChip`).
-- **Discipline des Modifiers** : Chaque composable réutilisable accepte par défaut le paramètre `modifier: Modifier = Modifier` qu'il applique sur son conteneur racine.
-- **Callbacks et Événements** : Les actions utilisateur sont transmises sous forme de lambdas (`onClick: () -> Unit`), permettant de séparer l'interface de la logique applicative.
-- **Accessibilité** : Utilisation du modifier `.semantics { role = Role.Button; contentDescription = "..." }` pour garantir la compatibilité avec les lecteurs d'écran (TalkBack).
+## 4. État local (`rememberSaveable`)
+- **Quel état est conservé directement dans un composable et pourquoi ?**  
+  Dans le composable `ContactSection`, nous avons conservé l'état **`isContactVisible`** avec `rememberSaveable { mutableStateOf(false) }`.  
+  *Pourquoi ?* Cet état gère uniquement l'affichage/masquage local du bloc de contact. Comme il s'agit d'un pur détail d'affichage d'interface qui n'impacte pas le reste des données de l'application, il est préférable de le garder local au composable plutôt que d'encombrer le ViewModel.
 
 ---
 
-## Previews et Variantes de Profils
-
-L'application inclut deux fonctions de prévisualisation dans `ProfileApp.kt` permettant de tester différentes variantes d'interfaces directement dans Android Studio :
-
-- **`ProfileJuniorPreview`** : Affiche le profil d'un *Développeur Android Junior* à la recherche d'un stage (statut disponible / voyant vert).
-- **`ProfileSeniorPreview`** : Affiche le profil d'une *Développeuse Fullstack Mobile* expérimentée (statut en poste / voyant orange).
+## 5. State Hoisting
+- **Pourquoi votre composable d'écran principal peut-il être considéré comme `stateless` ?**  
+  `ProfileScreen` ne stocke ni ne modifie aucun état lui-même. Il reçoit toutes ses valeurs sous forme de paramètres (`uiState`) et délègue toutes les actions de l'utilisateur vers le haut via des callbacks (`onSearchQueryChange`, `onToggleFavoriteFilter`, `onFavoriteClick`). Il est donc 100% prévisualisable et réutilisable.
 
 ---
 
-## Lancement du Projet
+## 6. ViewModel (`ProfilViewModel`)
+- **Quel est le rôle de votre ViewModel dans cette application ?**  
+  `ProfilViewModel` centralise toute la logique métier et la gestion de l'état de l'écran. Il conserve l'état modifiable privé (`_uiState = MutableStateFlow(...)`), traite les événements de l'utilisateur (saisie de recherche, clic favori, filtre) et met à jour l'état UI de façon thread-safe.
 
-1. Ouvrez le projet dans **Android Studio**.
-2. Attendez la fin de la synchronisation Gradle.
-3. Pour afficher l'interface sans émulateur, ouvrez le fichier `ProfileApp.kt` et cliquez sur l'onglet **Split** ou **Design** (en haut à droite) pour afficher les **Previews**.
-4. Pour exécuter l'application sur un émulateur ou un appareil physique, cliquez sur le bouton **Run 'app'** (Flèche verte).
+---
+
+## 7. StateFlow
+- **Comment l'interface est-elle informée lorsqu'un état change ?**  
+  `ProfilViewModel` expose l'état sous forme d'un `StateFlow<ProfileUiState>` immuable et public (`uiState`). Le composable `ProfileContainer` observe ce flux en temps réel via `val uiState by viewModel.uiState.collectAsState()`. À chaque modification émise par le `StateFlow`, Compose re-compose automatiquement l'interface pour afficher les données à jour.
+
+---
+
+## 8. Organisation du code
+- **`ProfilViewModel`** : Gère la logique applicative et publie le `StateFlow`.
+- **`ProfileUiState`** : Data class représentant l'état complet de l'interface et le filtrage réactif.
+- **`ProfileContainer`** : Connecte le ViewModel à Compose (collecte du StateFlow et transmission des callbacks).
+- **`ProfileScreen`** : Écran principal stateless avec la barre de recherche, le filtre favoris et le compteur.
+- **`ProjectCard`** : Carte réutilisable affichant un projet avec l'icône de cœur favori réactive.
+- **`ContactSection`** : Section contact gérant son état local dépliable (`rememberSaveable`).
+- **`ActionButton`** : Bouton principal interactif Material 3.
+
+---
+
+## 9. Captures d'écran et Previews
+Les fonctions `@Preview` dans `ProfileApp.kt` présentent deux états différents de l'écran :
+- **`ProfilePreview1`** : Recherche vide, tous les projets affichés, aucun favori (Mode Clair).
+- **`ProfilePreview2`** : Recherche active, filtre favoris activé et plusieurs favoris sélectionnés (Mode Sombre).
